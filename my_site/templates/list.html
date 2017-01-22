@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% csrf_token %}
+{% block title %}Products{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="blog-header">
+            <h1 class="blog-title col-md-offset-3"><b>Search results</b></h1>
+        </div>
+        <div class="row">
+            <div class="col-md-9 blog-main">
+                {% include 'list_object.html' with item=item %}
+                <div id="loading_block"></div>
+            </div>
+            <div class="col-md-3 blog-sidebar">
+                <section class="panel panel-search">
+                    <div class="panel-heading bg-primary">
+                        <div class="panel-title">
+                            <h3>
+                                <div class="title">Search</div>
+                            </h3>
+                        </div>
+                    </div>
+                    <h4>
+                        <div class="col-md-offset-1">Filters</div>
+                    </h4>
+                    <ol class="list-unstyled text-center">
+                        <li><a href="#">Price low to high</a></li>
+                        <li><a href="#">Price high to low</a></li>
+                        <li><a href="#">Popularity</a></li>
+                    </ol>
+                    <div class="panel-body bg-primary">
+                        <div class="input-group">
+                            <form data-key="2af70d95e12e1e4e9344fa7468f8213d00434d93" action="search" method="get"
+                                  style="margin-bottom:1px;">
+                                <input type="text" class="form-control" name="query" placeholder="Enter here" value=""/>
+                                <br>
+                                <br>
+                                <br>
+                                <p>
+                                    <button type="submit" class="btn btn-default">Find</button>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="col-xs-offset-3 col-xs-3">
+                    {% if user.is_superuser %}
+                        <button id='addnew' class="btn-md btn-primary ">
+                            <h5>
+                                <div class="title">Add new computer</div>
+                            </h5>
+                        </button>
+                    {% endif %}
+                    <div id='ModalNew' class="modal fade">
+                        <div class="modal-dialog modal-xs">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                    </button>
+                                    <h4 class="modal-title">Add new</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-horizontal clearfix" action="/create/" id="#new"
+                                          enctype="multipart/form-data" name="form_add" method="POST">
+                                        {% csrf_token %}
+                                        <p>
+                                            <label class="col-xs-3 control-label">Name:</label>
+                                            {{ form.name }}</p>
+                                        <p>
+                                            <label class="col-xs-3 control-label">Picture:</label>
+                                            {{ form.pic }}</p>
+                                        <p>
+                                            <label class="col-xs-3 control-label">Price:</label>
+                                            {{ form.price }} </p>
+                                        <p>
+                                            <label class="col-xs-3 control-label">Quantity:</label>
+                                            {{ form.quantity }}</p>
+                                        <p>
+                                            <label class="col-xs-3 control-label">Description:</label>
+                                            {{ form.description }}</p>
+                                        <p>
+                                            <label class="col-xs-3 control-label">Type:</label>
+                                            {{ form.type }}</p>
+
+                                        <button type="submit" class="btn btn-default col-md-offset-2">Add</button>
+                                    </form>
+
+
+                                    <div class="alert alert-warning" id="error">
+                                        <a href="" class="close" data-dismiss="alert">&times;</a>
+                                        <div id="msg"></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script src="/static/js/all.js"></script>
+{% endblock %}
